@@ -6,7 +6,7 @@ import Colors from '../constants/color'
 import Input from '../components/Input'
 import NumberContainer from '../components/NumberContainer'
 
-export default function StartGameScreen() {
+export default function StartGameScreen({onStartGame}) {
 
     const [enteredValue, setenteredValue] = useState('')
     const [confirmed, setconfirmed] = useState(false)
@@ -44,7 +44,7 @@ export default function StartGameScreen() {
             <Card style={styles.summaryContainer}>
                 <Text>You Selected</Text>
                 <NumberContainer>{selectedNumber}</NumberContainer>
-                <Button title="START BUTTON" />
+                <Button title="START BUTTON" onPress={() => onStartGame(selectedNumber)} />
             </Card>
         )
     }
