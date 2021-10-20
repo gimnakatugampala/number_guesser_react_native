@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Button, StyleSheet, Text, View,Alert } from 'react-native'
 
 
@@ -19,7 +19,7 @@ const generateRandomBetween = (min,max,exclude) =>{
     
 }
 
-export default function GameScreen({userChoice}) {
+export default function GameScreen({userChoice,onGameOver}) {
 
     const [currentGuess, setcurrentGuess] = useState(generateRandomBetween(1,100,userChoice))
 
@@ -28,9 +28,18 @@ export default function GameScreen({userChoice}) {
             Alert.alert('Don\'t lie!','You know that this is wrong...',[{text:'Sorry!',style:'cancel'}])
             return;
         }
-
+        const [rounds, setrounds] = useState(0)
         const currentLow = useRef(1)
         const currentHigh =  useRef(100)
+
+
+        useEffect(() => {
+
+            if(currentGuess === userChoice){
+                onGameOver(rounds)
+            }
+            
+        },[currentGuess,userChoice,onGameOver])
 
 
 
@@ -42,6 +51,7 @@ export default function GameScreen({userChoice}) {
 
      const nextNumber =  generateRandomBetween(currentLow.current,currentHigh.current,currentGuess)
      setcurrentGuess(nextNumber)
+     setrounds(curRounds => curRounds + 1)
     }
 
     return (
